@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - changeSet:
+      id: modify-is_deleted-column-type
+      author: mate_academy
+      changes:
+        - modifyDataType:
+            columnName: is_deleted
+            newDataType: BIT
+            tableName: books

@@ -4,6 +4,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import mate.academy.dto.BookDto;
 import mate.academy.dto.CreateBookRequestDto;
+import mate.academy.dto.UpdateBookRequestDto;
 import mate.academy.exception.EntityNotFoundException;
 import mate.academy.mapper.BookMapper;
 import mate.academy.model.Book;
@@ -33,5 +34,16 @@ public class BookService {
                 .orElseThrow(
                         () -> new EntityNotFoundException("Book with id " + id + " not found"));
         return bookMapper.toDto(book);
+    }
+
+    public void deleteById(Long id) {
+        bookRepository.deleteById(id);
+    }
+
+    public BookDto updateBookDetails(Long id, UpdateBookRequestDto requestDto) {
+        Book book = bookRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Book not found with id " + id));
+        bookMapper.updateBookFromDto(requestDto,book);
+        return bookMapper.toDto(bookRepository.save(book));
     }
 }
