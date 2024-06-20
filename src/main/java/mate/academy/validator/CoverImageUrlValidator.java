@@ -11,14 +11,9 @@ public class CoverImageUrlValidator implements ConstraintValidator<CoverImage, S
             Pattern.CASE_INSENSITIVE);
 
     @Override
-    public void initialize(CoverImage constraintAnnotation) {
-    }
-
-    @Override
     public boolean isValid(String coverImage, ConstraintValidatorContext context) {
-        if (coverImage == null || coverImage.trim().isEmpty()) {
-            return false;
-        }
-        return IMAGE_URL_PATTERN.matcher(coverImage).matches();
+        return coverImage != null && IMAGE_URL_PATTERN
+                .matcher(coverImage)
+                .matches();
     }
 }
