@@ -1,5 +1,7 @@
 package mate.academy.controller;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import mate.academy.dto.BookDto;
@@ -8,6 +10,7 @@ import mate.academy.dto.CreateBookRequestDto;
 import mate.academy.dto.UpdateBookRequestDto;
 import mate.academy.service.BookService;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,8 +23,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
 @RestController
+@Validated
 @RequestMapping("/books")
 public class BookController {
+
     private final BookService bookService;
 
     @GetMapping
@@ -30,7 +35,7 @@ public class BookController {
     }
 
     @PostMapping
-    public BookDto save(@RequestBody CreateBookRequestDto requestDto) {
+    public BookDto save(@RequestBody @Valid CreateBookRequestDto requestDto) {
         return bookService.save(requestDto);
     }
 
@@ -47,7 +52,8 @@ public class BookController {
 
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/{id}")
-    public BookDto updateBook(@PathVariable Long id, @RequestBody UpdateBookRequestDto requestDto) {
+    public BookDto updateBook(@PathVariable @Positive Long id,
+                              @Valid @RequestBody UpdateBookRequestDto requestDto) {
         return bookService.updateBookDetails(id, requestDto);
     }
 
