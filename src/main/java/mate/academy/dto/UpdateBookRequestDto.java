@@ -11,29 +11,24 @@ import mate.academy.validator.Isbn;
 
 @Data
 public class UpdateBookRequestDto {
-    private static final int TITLE_MAX_LENGTH = 20;
-    private static final int AUTHOR_MAX_LENGTH = 30;
-    private static final String PRICE_MIN_VALUE = "0.0";
-    private static final int DESCRIPTION_MIN_LENGTH = 1;
-
     @NotBlank(message = "Title cannot be blank")
-    @Size(max = TITLE_MAX_LENGTH, message = "Title length must not exceed {max} characters")
+    @Size(max = 20, message = "Title length must not exceed {max} characters")
     private String title;
 
     @NotBlank(message = "Author cannot be blank")
-    @Size(max = AUTHOR_MAX_LENGTH, message = "Author length must not exceed {max} characters")
+    @Size(max = 30, message = "Author length must not exceed {max} characters")
     private String author;
 
     @Isbn
     private String isbn;
 
     @NotNull(message = "Price is mandatory")
-    @DecimalMin(value = PRICE_MIN_VALUE, inclusive = false,
+    @DecimalMin(value = "0.0", inclusive = false,
             message = "Price must be greater than zero")
     private BigDecimal price;
 
     @NotNull(message = "Description is mandatory")
-    @Size(min = DESCRIPTION_MIN_LENGTH,
+    @Size(min = 1,
             message = "Description length must be greater than {min} characters")
     private String description;
 
