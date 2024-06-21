@@ -27,7 +27,7 @@ public class UpdateBookRequestDto {
             message = "Price must be greater than zero")
     private BigDecimal price;
 
-    @NotNull(message = "Description is mandatory")
+    @NotBlank(message = "Description is mandatory")
     @Size(min = 1,
             message = "Description length must be greater than {min} characters")
     private String description;
