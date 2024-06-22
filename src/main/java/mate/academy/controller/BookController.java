@@ -14,7 +14,9 @@ import mate.academy.dto.BookSearchParametersDto;
 import mate.academy.dto.CreateBookRequestDto;
 import mate.academy.dto.UpdateBookRequestDto;
 import mate.academy.service.BookService;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -27,7 +29,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-@Tag(name = "Data transfer object for Book")
+@Tag(name = "Book management", description = "Endpoints for managing books")
 @RequiredArgsConstructor
 @RestController
 @Validated
@@ -44,7 +46,7 @@ public class BookController {
             @ApiResponse(responseCode = "400", description = "Invalid pagination parameters"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public List<BookDto> getAll(Pageable pageable) {
+    public List<BookDto> getAll(@ParameterObject @PageableDefault Pageable pageable) {
         return bookService.getAll(pageable);
     }
 
@@ -116,7 +118,7 @@ public class BookController {
     })
     @GetMapping("/search")
     public List<BookDto> search(@Valid BookSearchParametersDto searchParameters,
-                                Pageable pageable) {
+                               @ParameterObject @PageableDefault Pageable pageable) {
         return bookService.search(searchParameters, pageable);
     }
 }
