@@ -2,10 +2,10 @@ package mate.academy.validator;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-import org.apache.commons.beanutils.BeanUtils;
+import java.util.Objects;
+import org.springframework.beans.BeanWrapperImpl;
 
 public class FieldMatchValidator implements ConstraintValidator<FieldMatch, Object> {
-
     private String firstFieldName;
     private String secondFieldName;
     private String message;
@@ -19,16 +19,11 @@ public class FieldMatchValidator implements ConstraintValidator<FieldMatch, Obje
 
     @Override
     public boolean isValid(final Object value, final ConstraintValidatorContext context) {
-        boolean valid = true;
-        try {
-            final Object firstObj = BeanUtils.getProperty(value, firstFieldName);
-            final Object secondObj = BeanUtils.getProperty(value, secondFieldName);
+        Object firstFieldValue = new BeanWrapperImpl(value).getPropertyValue(firstFieldName);
+        Object secondFieldValue = new BeanWrapperImpl(value).getPropertyValue(secondFieldName);
 
-            valid = firstObj == null && secondObj == null
-                    || firstObj != null && firstObj.equals(secondObj);
-        } catch (final Exception ignore) {
-            // ignore
-        }
+        boolean valid = Objects.equals(firstFieldValue, secondFieldValue);
+
         if (!valid) {
             context.buildConstraintViolationWithTemplate(message)
                     .addPropertyNode(firstFieldName)
@@ -38,3 +33,4 @@ public class FieldMatchValidator implements ConstraintValidator<FieldMatch, Obje
         return valid;
     }
 }
+

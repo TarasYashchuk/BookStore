@@ -32,7 +32,7 @@ databaseChangeLog:
                   value: jane.smith@example.com
               - column:
                   name: password
-                  value: anotherSecurePassword
+                  value: anotherPassword
               - column:
                   name: first_name
                   value: Jane

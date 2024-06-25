@@ -2,7 +2,7 @@ package mate.academy.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import mate.academy.validator.FieldMatch;
 import org.hibernate.validator.constraints.Length;
@@ -17,26 +17,26 @@ public class UserRegistrationRequestDto {
     private static final int MIN_LENGTH = 8;
     private static final int MAX_LENGTH = 20;
 
-    @NotNull
+    @NotBlank
     @Email
     @Schema(name = "The email of the user", required = true)
     private String email;
 
-    @NotNull
+    @NotBlank
     @Length(min = MIN_LENGTH, max = MAX_LENGTH)
     @Schema(name = "The password of the user", required = true)
     private String password;
 
-    @NotNull
+    @NotBlank
     @Length(min = MIN_LENGTH, max = MAX_LENGTH)
     @Schema(name = "The repeated password of the user", required = true)
     private String repeatPassword;
 
-    @NotNull
+    @NotBlank
     @Schema(name = "The first name of the user", required = true)
     private String firstName;
 
-    @NotNull
+    @NotBlank
     @Schema(name = "The last name of the user", required = true)
     private String lastName;
 
