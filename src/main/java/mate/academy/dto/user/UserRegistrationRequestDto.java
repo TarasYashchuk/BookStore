@@ -1,4 +1,4 @@
-package mate.academy.dto;
+package mate.academy.dto.user;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
@@ -15,7 +15,7 @@ import org.hibernate.validator.constraints.Length;
 @Schema(description = "Request to register a new user")
 public class UserRegistrationRequestDto {
     private static final int MIN_LENGTH = 8;
-    private static final int MAX_LENGTH = 20;
+    private static final int MAX_LENGTH = 60;
 
     @NotBlank
     @Email

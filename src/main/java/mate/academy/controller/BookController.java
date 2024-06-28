@@ -9,15 +9,16 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import mate.academy.dto.BookDto;
-import mate.academy.dto.BookSearchParametersDto;
-import mate.academy.dto.CreateBookRequestDto;
-import mate.academy.dto.UpdateBookRequestDto;
+import mate.academy.dto.book.BookDto;
+import mate.academy.dto.book.BookSearchParametersDto;
+import mate.academy.dto.book.CreateBookRequestDto;
+import mate.academy.dto.book.UpdateBookRequestDto;
 import mate.academy.service.BookService;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,6 +39,7 @@ public class BookController {
 
     private final BookService bookService;
 
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @GetMapping
     @Operation(summary = "Get all books with pagination",
             description = "Returns a paginated list of all books")
@@ -50,6 +52,7 @@ public class BookController {
         return bookService.getAll(pageable);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Add a new book",
             description = "Creates a new book with the provided details")
     @ApiResponses(value = {
@@ -63,6 +66,7 @@ public class BookController {
         return bookService.save(requestDto);
     }
 
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @Operation(summary = "Get a book by ID",
             description = "Returns the details of the book with the specified ID")
     @ApiResponses(value = {
@@ -77,6 +81,7 @@ public class BookController {
         return bookService.getBookById(id);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Delete a book by ID",
             description = "Deletes the book with the specified ID")
     @ApiResponses(value = {
@@ -91,6 +96,7 @@ public class BookController {
         bookService.deleteById(id);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Update book details by ID",
             description = "Updates the details of the book with the specified ID")
     @ApiResponses(value = {
@@ -106,6 +112,7 @@ public class BookController {
         return bookService.updateBookDetails(id, requestDto);
     }
 
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @Operation(summary = "Search books by parameters",
             description = "Searches for books based on provided search parameters")
     @ApiResponses(value = {
@@ -118,7 +125,7 @@ public class BookController {
     })
     @GetMapping("/search")
     public List<BookDto> search(@Valid BookSearchParametersDto searchParameters,
-                               @ParameterObject @PageableDefault Pageable pageable) {
+                                @ParameterObject @PageableDefault Pageable pageable) {
         return bookService.search(searchParameters, pageable);
     }
 }
