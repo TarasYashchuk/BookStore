@@ -1,4 +1,4 @@
-package mate.academy.dto;
+package mate.academy.dto.book;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
