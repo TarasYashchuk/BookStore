@@ -29,14 +29,14 @@ public class AuthenticationController {
 
     @PostMapping("/login")
     @Operation(description = "Authenticate user")
-    public UserLoginResponseDto login(@RequestBody UserLoginRequestDto requestDto) {
+    public UserLoginResponseDto login(@RequestBody @Valid UserLoginRequestDto requestDto) {
         return authenticationService.authenticate(requestDto);
     }
 
     @PostMapping("/registration")
     @ResponseStatus(HttpStatus.OK)
     @Operation(description = "Register a new user")
-    public UserResponseDto registerUser(@RequestBody @Valid UserRegistrationRequestDto requestDto)
+    public UserResponseDto register(@RequestBody @Valid UserRegistrationRequestDto requestDto)
             throws RegistrationException {
         return userService.register(requestDto);
     }
