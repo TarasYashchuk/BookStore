@@ -8,8 +8,7 @@ public record UserLoginRequestDto(@Email
                                   @NotBlank(message = "Email cannot be blank")
                                   String email,
                                   @NotBlank(message = "Password cannot be empty")
-                                  @Length(min = MIN_LENGTH, max = MAX_LENGTH)
+                                  @Length(min = 8, max = 60)
                                   String password) {
-    private static final int MIN_LENGTH = 8;
-    private static final int MAX_LENGTH = 60;
+
 }

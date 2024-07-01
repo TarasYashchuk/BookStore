@@ -1,14 +1,10 @@
 package mate.academy.service;
 
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.MalformedJwtException;
-import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.security.Keys;
-import io.jsonwebtoken.security.SignatureException;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
@@ -43,16 +39,8 @@ public class JwtUtil {
                     .build()
                     .parseClaimsJws(token);
             return !claimsJws.getBody().getExpiration().before(new Date());
-        } catch (ExpiredJwtException e) {
-            throw new JwtException("Expired JWT token");
-        } catch (UnsupportedJwtException e) {
-            throw new JwtException("Unsupported JWT token");
-        } catch (MalformedJwtException e) {
-            throw new JwtException("Malformed JWT token");
-        } catch (SignatureException e) {
-            throw new JwtException("Invalid JWT signature");
-        } catch (IllegalArgumentException e) {
-            throw new JwtException("Invalid JWT token");
+        } catch (JwtException | IllegalArgumentException e) {
+            throw new JwtException("Expired or invalid JWT token", e);
         }
     }
 
