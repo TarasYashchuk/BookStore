@@ -2,9 +2,11 @@ package mate.academy.dto.book;
 
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.math.BigDecimal;
+import java.util.List;
 import lombok.Data;
 import mate.academy.validator.CoverImage;
 import mate.academy.validator.Isbn;
@@ -34,4 +36,7 @@ public class CreateBookRequestDto {
 
     @CoverImage
     private String coverImage;
+
+    @NotEmpty(message = "Categories are mandatory")
+    private List<Long> categoryIds;
 }
