@@ -3,8 +3,8 @@ package mate.academy.repository.book;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import mate.academy.model.Book;
-import mate.academy.repository.SpecificationProvider;
-import mate.academy.repository.SpecificationProviderManager;
+import mate.academy.repository.specification.SpecificationProvider;
+import mate.academy.repository.specification.SpecificationProviderManager;
 import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor

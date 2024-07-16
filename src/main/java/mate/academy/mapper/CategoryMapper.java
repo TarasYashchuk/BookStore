@@ -8,6 +8,7 @@ import org.mapstruct.Mapping;
 
 @Mapper(config = MapperConfig.class)
 public interface CategoryMapper {
+
     CategoryDto toDto(Category category);
 
     @Mapping(target = "id", ignore = true)
