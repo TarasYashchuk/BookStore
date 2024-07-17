@@ -6,17 +6,12 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
-import mate.academy.dto.cartitem.AddToCartRequestDto;
-import mate.academy.dto.cartitem.CartItemDto;
+import mate.academy.dto.cartitem.CartItemRequestDto;
 import mate.academy.dto.cartitem.UpdateCartItemRequestDto;
 import mate.academy.dto.shoppingcart.ShoppingCartDto;
 import mate.academy.model.User;
 import mate.academy.service.ShoppingCartService;
-import org.springdoc.core.annotations.ParameterObject;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -64,7 +59,7 @@ public class ShoppingCartController {
     })
     @PostMapping
     public ShoppingCartDto addToCart(@AuthenticationPrincipal User user,
-                                     @RequestBody @Valid AddToCartRequestDto request) {
+                                     @RequestBody @Valid CartItemRequestDto request) {
         Long userId = user.getId();
         return shoppingCartService.addToCart(userId, request.bookId(), request.quantity());
     }
@@ -80,12 +75,12 @@ public class ShoppingCartController {
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     @PutMapping("/items/{cartItemId}")
-    public ShoppingCartDto updateCartItemQuantity(@PathVariable @Parameter
-            (description = "ID of the cart item to be updated", required = true)
-                                                      Long cartItemId,
-                                                  @RequestBody
-                                                  @Valid UpdateCartItemRequestDto request) {
-        return shoppingCartService.updateCartItemQuantity(cartItemId, request.quantity());
+    public ShoppingCartDto updateCartItemQuantity(
+            @AuthenticationPrincipal User userDetails,
+            @PathVariable Long cartItemId,
+            @RequestBody UpdateCartItemRequestDto requestDto) {
+        return shoppingCartService.updateCartItemQuantity(cartItemId,
+                userDetails.getId(), requestDto.quantity());
     }
 
     @PreAuthorize("hasAnyRole('USER')")
@@ -98,24 +93,11 @@ public class ShoppingCartController {
     })
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/items/{cartItemId}")
-    public void removeCartItem(@PathVariable @Parameter
-            (description = "ID of the cart item to be removed", required = true) Long cartItemId) {
-        shoppingCartService.removeCartItem(cartItemId);
-    }
-
-    @PreAuthorize("hasAnyRole('USER')")
-    @Operation(summary = "Get cart items with pagination and sorting",
-            description = "Retrieve the list of cart items for the user")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successfully retrieved cart items"),
-            @ApiResponse(responseCode = "401", description = "Unauthorized"),
-            @ApiResponse(responseCode = "500", description = "Internal server error")
-    })
-    @GetMapping("/items")
-    public List<CartItemDto> getCartItems(
-            @AuthenticationPrincipal User user,
-            @ParameterObject @PageableDefault Pageable pageable) {
-        Long userId = user.getId();
-        return shoppingCartService.getCartItems(userId, pageable);
+    public void removeCartItem(@AuthenticationPrincipal User userDetails,
+                               @PathVariable
+                               @Parameter(description = "ID of the cart item to be removed",
+                                       required = true)
+                               Long cartItemId) {
+        shoppingCartService.removeCartItem(cartItemId, userDetails.getId());
     }
 }
