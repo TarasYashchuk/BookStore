@@ -33,7 +33,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     @Transactional
     public ShoppingCartDto addToCart(Long userId, Long bookId, int quantity) {
-         ShoppingCart shoppingCart = shoppingCartRepository.findByUserId(userId);
+        ShoppingCart shoppingCart = shoppingCartRepository.findByUserId(userId);
         if (shoppingCart == null) {
             shoppingCart = createNewShoppingCart(userId);
         }
