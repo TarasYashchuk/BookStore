@@ -16,6 +16,7 @@ import mate.academy.repository.shoppingcart.ShoppingCartRepository;
 import mate.academy.repository.user.UserRepository;
 import mate.academy.service.ShoppingCartService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -30,8 +31,9 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         return shoppingCartMapper.toDto(shoppingCartRepository.findByUserId(userId));
     }
 
+    @Transactional
     public ShoppingCartDto addToCart(Long userId, Long bookId, int quantity) {
-        ShoppingCart shoppingCart = shoppingCartRepository.findByUserId(userId);
+         ShoppingCart shoppingCart = shoppingCartRepository.findByUserId(userId);
         if (shoppingCart == null) {
             shoppingCart = createNewShoppingCart(userId);
         }
@@ -53,6 +55,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         return shoppingCartMapper.toDto(shoppingCart);
     }
 
+    @Transactional
     public ShoppingCartDto updateCartItemQuantity(Long cartItemId, Long userId, int quantity) {
         ShoppingCart shoppingCart = shoppingCartRepository.findByUserId(userId);
         if (shoppingCart == null) {
@@ -69,6 +72,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         return shoppingCartMapper.toDto(shoppingCart);
     }
 
+    @Transactional
     public void removeCartItem(Long cartItemId, Long userId) {
         ShoppingCart shoppingCart = shoppingCartRepository.findByUserId(userId);
         if (shoppingCart == null) {
@@ -100,5 +104,4 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         cartItem.setShoppingCart(shoppingCart);
         shoppingCart.getCartItems().add(cartItem);
     }
-
 }
