@@ -25,7 +25,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Setter
 @SQLDelete(sql = "UPDATE users set is_deleted = true WHERE id=?")
 @SQLRestriction("is_deleted=false")
-@ToString(exclude = "password")
+@ToString(exclude = {"password", "roles"})
 @Table(name = "users")
 public class User implements UserDetails {
     @Id
