@@ -23,5 +23,8 @@ databaseChangeLog:
       file: db/changelog/changes/11-add-foreign-key-constraints.yaml
   - include:
       file: db/changelog/changes/12-insert-data-to-categories-table.yaml
-
+  - include:
+      file: db/changelog/changes/15-create-orders-table.yaml
+  - include:
+      file: db/changelog/changes/16-create-order_items-table.yaml
 
