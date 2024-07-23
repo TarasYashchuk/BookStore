@@ -36,37 +36,16 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     @Override
     public OrderDto createOrder(Long userId, String shippingAddress) {
-        ShoppingCart shoppingCart = shoppingCartRepository.findByUserId(userId);
-        if (shoppingCart == null || shoppingCart.getCartItems().isEmpty()) {
-            throw new EntityNotFoundException("Shopping cart is empty");
-        }
-
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+        ShoppingCart shoppingCart = getShoppingCart(userId);
+        User user = getUser(userId);
 
         Order order = makeOrder(shippingAddress, user);
-
-        BigDecimal total = BigDecimal.ZERO;
-
-        for (CartItem cartItem : shoppingCart.getCartItems()) {
-            OrderItem orderItem = new OrderItem();
-            orderItem.setOrder(order);
-            orderItem.setBook(cartItem.getBook());
-            orderItem.setQuantity(cartItem.getQuantity());
-            orderItem.setPrice(cartItem.getBook().getPrice()
-                    .multiply(BigDecimal.valueOf(cartItem.getQuantity())));
-            orderItem.setDeleted(false);
-            order.getOrderItems().add(orderItem);
-
-            total = total.add(orderItem.getPrice());
-        }
+        BigDecimal total = calculateTotalAndAddOrderItems(shoppingCart, order);
 
         order.setTotal(total);
-        orderRepository.save(order);
-        orderItemRepository.saveAll(order.getOrderItems());
+        saveOrderAndOrderItems(order);
 
-        shoppingCart.getCartItems().clear();
-        shoppingCartRepository.save(shoppingCart);
+        clearShoppingCart(shoppingCart);
 
         return orderMapper.toDto(order);
     }
@@ -112,5 +91,46 @@ public class OrderServiceImpl implements OrderService {
         order.setShippingAddress(shippingAddress);
         order.setDeleted(false);
         return order;
+    }
+
+    private ShoppingCart getShoppingCart(Long userId) {
+        ShoppingCart shoppingCart = shoppingCartRepository.findByUserId(userId);
+        if (shoppingCart == null || shoppingCart.getCartItems().isEmpty()) {
+            throw new EntityNotFoundException("Shopping cart is empty");
+        }
+        return shoppingCart;
+    }
+
+    private User getUser(Long userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+    }
+
+    private BigDecimal calculateTotalAndAddOrderItems(ShoppingCart shoppingCart, Order order) {
+        BigDecimal total = BigDecimal.ZERO;
+
+        for (CartItem cartItem : shoppingCart.getCartItems()) {
+            OrderItem orderItem = new OrderItem();
+            orderItem.setOrder(order);
+            orderItem.setBook(cartItem.getBook());
+            orderItem.setQuantity(cartItem.getQuantity());
+            orderItem.setPrice(cartItem.getBook().getPrice()
+                    .multiply(BigDecimal.valueOf(cartItem.getQuantity())));
+            orderItem.setDeleted(false);
+            order.getOrderItems().add(orderItem);
+
+            total = total.add(orderItem.getPrice());
+        }
+        return total;
+    }
+
+    private void saveOrderAndOrderItems(Order order) {
+        orderRepository.save(order);
+        orderItemRepository.saveAll(order.getOrderItems());
+    }
+
+    private void clearShoppingCart(ShoppingCart shoppingCart) {
+        shoppingCart.getCartItems().clear();
+        shoppingCartRepository.save(shoppingCart);
     }
 }
