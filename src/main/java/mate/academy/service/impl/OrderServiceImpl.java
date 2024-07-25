@@ -3,6 +3,8 @@ package mate.academy.service.impl;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
+
 import lombok.RequiredArgsConstructor;
 import mate.academy.dto.order.OrderDto;
 import mate.academy.dto.order.OrderItemDto;
@@ -40,7 +42,8 @@ public class OrderServiceImpl implements OrderService {
         User user = getUser(userId);
 
         Order order = makeOrder(shippingAddress, user);
-        BigDecimal total = calculateTotalAndAddOrderItems(shoppingCart, order);
+        addOrderItemsFromCart(shoppingCart, order);
+        BigDecimal total = calculateTotal(order.getOrderItems());
 
         order.setTotal(total);
         saveOrderAndOrderItems(order);
@@ -83,7 +86,7 @@ public class OrderServiceImpl implements OrderService {
         orderRepository.save(order);
     }
 
-    private static Order makeOrder(String shippingAddress, User user) {
+    private Order makeOrder(String shippingAddress, User user) {
         Order order = new Order();
         order.setUser(user);
         order.setStatus(Order.Status.PENDING);
@@ -106,9 +109,7 @@ public class OrderServiceImpl implements OrderService {
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
     }
 
-    private BigDecimal calculateTotalAndAddOrderItems(ShoppingCart shoppingCart, Order order) {
-        BigDecimal total = BigDecimal.ZERO;
-
+    private void addOrderItemsFromCart(ShoppingCart shoppingCart, Order order) {
         for (CartItem cartItem : shoppingCart.getCartItems()) {
             OrderItem orderItem = new OrderItem();
             orderItem.setOrder(order);
@@ -118,8 +119,13 @@ public class OrderServiceImpl implements OrderService {
                     .multiply(BigDecimal.valueOf(cartItem.getQuantity())));
             orderItem.setDeleted(false);
             order.getOrderItems().add(orderItem);
+        }
+    }
 
-            total = total.add(orderItem.getPrice());
+    private BigDecimal calculateTotal(Set<OrderItem> orderItems) {
+        BigDecimal total = BigDecimal.ZERO;
+        for (OrderItem item : orderItems) {
+            total = total.add(item.getPrice());
         }
         return total;
     }

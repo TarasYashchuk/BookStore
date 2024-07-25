@@ -33,7 +33,6 @@ public class OrderItem {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "book_id", nullable = false)
     private Book book;
-
     @Column(nullable = false)
     private int quantity;
     @Column(nullable = false)
