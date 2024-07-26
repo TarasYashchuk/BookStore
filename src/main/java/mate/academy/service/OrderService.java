@@ -3,7 +3,6 @@ package mate.academy.service;
 import java.util.List;
 import mate.academy.dto.order.OrderDto;
 import mate.academy.dto.order.OrderItemDto;
-import mate.academy.model.Order;
 import org.springframework.data.domain.Pageable;
 
 public interface OrderService {
@@ -15,5 +14,5 @@ public interface OrderService {
 
     OrderItemDto getOrderItem(Long orderId, Long itemId);
 
-    void updateOrderStatus(Long orderId, Order.Status status);
+    OrderDto updateOrderStatus(Long orderId, String status);
 }

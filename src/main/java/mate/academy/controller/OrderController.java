@@ -47,7 +47,7 @@ public class OrderController {
             @AuthenticationPrincipal User userDetails,
             @RequestBody @Parameter(description = "Details for placing an order", required = true)
             PlaceOrderRequestDto requestDto) {
-        return orderService.createOrder(userDetails.getId(), requestDto.getShippingAddress());
+        return orderService.createOrder(userDetails.getId(), requestDto.shippingAddress());
     }
 
     @PreAuthorize("hasRole('USER')")
@@ -111,12 +111,12 @@ public class OrderController {
             @ApiResponse(responseCode = "401", description = "Unauthorized"),
             @ApiResponse(responseCode = "404", description = "Order not found")
     })
-    public void updateOrderStatus(
+    public OrderDto updateOrderStatus(
             @PathVariable
             @Parameter(description = "ID of the order to update", required = true) Long orderId,
             @RequestBody
             @Parameter(description = "Details for updating the order status", required = true)
             UpdateOrderStatusRequestDto requestDto) {
-        orderService.updateOrderStatus(orderId, requestDto.getStatus());
+        return orderService.updateOrderStatus(orderId, requestDto.status().name());
     }
 }
