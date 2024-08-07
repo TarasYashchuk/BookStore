@@ -14,11 +14,11 @@ import mate.academy.validator.Isbn;
 @Data
 public class UpdateBookRequestDto {
     @NotBlank(message = "Title cannot be blank")
-    @Size(max = 20, message = "Title length must not exceed {max} characters")
+    @Size(max = 50, message = "Title length must not exceed {max} characters")
     private String title;
 
     @NotBlank(message = "Author cannot be blank")
-    @Size(max = 30, message = "Author length must not exceed {max} characters")
+    @Size(max = 50, message = "Author length must not exceed {max} characters")
     private String author;
 
     @Isbn

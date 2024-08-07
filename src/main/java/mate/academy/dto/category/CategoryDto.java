@@ -1,8 +1,14 @@
 package mate.academy.dto.category;
 
 import jakarta.validation.constraints.NotBlank;
+import lombok.Data;
 
-public record CategoryDto(@NotBlank(message = "name cannot be blank") String name,
-                          @NotBlank(message = "description cannot be blank")
-                          String description) {
+@Data
+public class CategoryDto {
+    @NotBlank(message = "name cannot be blank")
+    private String name;
+
+    @NotBlank(message = "description cannot be blank")
+    private String description;
 }
+
