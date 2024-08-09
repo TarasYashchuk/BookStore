@@ -1,8 +1,11 @@
 package mate.academy.dto.book;
 
-public record BookSearchParametersDto(
-        String title,
-        String author,
-        String isbn,
-        String price) {
+import lombok.Data;
+
+@Data
+public class BookSearchParametersDto {
+    private String title;
+    private String author;
+    private String isbn;
+    private String price;
 }
