@@ -29,6 +29,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import mate.academy.dto.book.BookDtoWithoutCategoryIds;
 import mate.academy.dto.category.CategoryDto;
+import mate.academy.dto.category.CreateCategoryRequestDto;
 import mate.academy.exception.EntityNotFoundException;
 import mate.academy.service.CategoryService;
 import net.datafaker.Faker;
@@ -79,7 +80,7 @@ class CategoryControllerTest {
         expected.setName(faker.book().genre());
         expected.setDescription(faker.lorem().paragraph());
 
-        when(categoryService.save(any(CategoryDto.class))).thenReturn(expected);
+        when(categoryService.save(any(CreateCategoryRequestDto.class))).thenReturn(expected);
 
         String jsonRequest = objectMapper.writeValueAsString(expected);
         MvcResult result = mockMvc.perform(post(BASE_CATEGORY_URL)
@@ -102,7 +103,7 @@ class CategoryControllerTest {
         expected.setName(faker.book().genre());
         expected.setDescription(faker.lorem().paragraph());
 
-        when(categoryService.save(any(CategoryDto.class))).thenReturn(expected);
+        when(categoryService.save(any(CreateCategoryRequestDto.class))).thenReturn(expected);
 
         String jsonRequest = objectMapper.writeValueAsString(expected);
         mockMvc.perform(post(BASE_CATEGORY_URL)

@@ -11,6 +11,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import mate.academy.dto.book.BookDtoWithoutCategoryIds;
 import mate.academy.dto.category.CategoryDto;
+import mate.academy.dto.category.CreateCategoryRequestDto;
 import mate.academy.service.CategoryService;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
@@ -42,15 +43,15 @@ public class CategoryController {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Category created successfully",
                     content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = CategoryDto.class))),
+                            schema = @Schema(implementation = CreateCategoryRequestDto.class))),
             @ApiResponse(responseCode = "400",
                     description = "Invalid input",
                     content = @Content)
     })
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
-    public CategoryDto createCategory(@Valid @RequestBody CategoryDto categoryDto) {
-        return categoryService.save(categoryDto);
+    public CategoryDto createCategory(@Valid @RequestBody CreateCategoryRequestDto requestDto) {
+        return categoryService.save(requestDto);
     }
 
     @Operation(summary = "Get all categories",

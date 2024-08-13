@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 import mate.academy.dto.book.BookDtoWithoutCategoryIds;
 import mate.academy.dto.category.CategoryDto;
+import mate.academy.dto.category.CreateCategoryRequestDto;
 import mate.academy.exception.EntityNotFoundException;
 import mate.academy.mapper.BookMapper;
 import mate.academy.mapper.CategoryMapper;
@@ -57,7 +58,7 @@ class CategoryServiceImplTest {
     @Test
     @DisplayName("Save category - Valid CategoryDto returns saved CategoryDto")
     void saveCategory_ValidCategoryDto_ReturnsSavedCategoryDto() {
-        CategoryDto categoryDto = new CategoryDto();
+        CreateCategoryRequestDto categoryDto = new CreateCategoryRequestDto();
         categoryDto.setName(faker.book().genre());
         categoryDto.setDescription(faker.lorem().paragraph());
 

@@ -1,4 +1,4 @@
-# "Bookstore"
+# 📚 Bookstore
 
 ---
 
@@ -9,7 +9,7 @@
 The application leverages modern Java-based server-side technologies, including the Spring Framework, to ensure robust and scalable performance. For security, JWT (JSON Web Tokens) is used to manage authentication and authorization, providing secure access control throughout the application. The application is containerized using Docker, making it easy to deploy and manage in various environments, including cloud services like AWS.
 
 ---
-## Key Features
+## 🌟 Key Features
 
 - **Category Management**: Organize books into categories for easier browsing.
 - **Shopping Cart**: Add books to a shopping cart for streamlined purchasing.
@@ -19,14 +19,14 @@ The application leverages modern Java-based server-side technologies, including 
 - **Dockerized Deployment**: Simplified deployment using Docker and Docker Compose.
 - **Database Integration**: MySQL database support with schema management via Liquibase.
 ---
-### Authentication Management
+### 🔑 Authentication Management
 
 Endpoints for managing user authentication:
 
 - **POST**: `/auth/registration` - Register a new user.
 - **POST**: `/auth/login` - Log in an existing user.
 
-### Order Management
+### 📦 Order Management
 
 Endpoints for managing user orders:
 
@@ -36,7 +36,7 @@ Endpoints for managing user orders:
 - **GET**: `/orders/{orderId}/items` - Retrieve all items for a specific order.
 - **GET**: `/orders/{orderId}/items/{itemId}` - Retrieve a specific item within an order.
 
-### Category Management
+### 🗂️ Category Management
 
 Endpoints for managing categories:
 
@@ -47,7 +47,7 @@ Endpoints for managing categories:
 - **DELETE**: `/categories/{id}` - Delete a category by its ID.
 - **GET**: `/categories/{id}/books` - Get all books associated with a specific category ID.
 
-### Shopping Cart Management
+### 🛒 Shopping Cart Management
 
 Endpoints for managing the shopping cart:
 
@@ -56,7 +56,7 @@ Endpoints for managing the shopping cart:
 - **GET**: `/cart` - Retrieve the user's shopping cart.
 - **POST**: `/cart` - Add a book to the shopping cart.
 
-### Book Management
+### 📚 Book Management
 
 Endpoints for managing books:
 
@@ -67,16 +67,19 @@ Endpoints for managing books:
 - **DELETE**: `/books/{id}` - Delete a book by its ID.
 - **GET**: `/books/search` - Search for books by various parameters.
 ---
-### Technologies Used:
+## 🛠️ Technologies Used
+
 - Java 17
-- Spring Boot, Spring Security, Spring data JPA
+- Spring Boot 3.1.0, Spring Security, Spring data JPA
 - REST, Mapstruct
-- MySQL, Liquibase
+- MySQL 8.0, Liquibase
 - Maven, Docker
 - Lombok, Swagger
 - Junit, Mockito
 ---
-## Getting Started
+## 🚀 Getting Started
+
+#### [Watch the demo video](https://www.youtube.com/watch?v=0lrKKQNzPis)
 
 ### Prerequisites
 
@@ -94,28 +97,35 @@ Before you begin, ensure you have met the following requirements:
     cd bookstore
     ```
 
-2. **Set Up the Environment**:
+2. **Configure Environment Variables**:
+
+   Customize the `.env` file to set up your environment-specific variables such as database credentials, JWT secret keys, etc. This allows you to connect to your own database or adjust configurations as needed.
+
+
+3. **Set Up the Environment**:
 
    Ensure Docker and Docker Compose are installed on your system. You can configure environment variables directly in the `docker-compose.yml` file.
 
-3. **Build and Run the Application**:
+
+4. **Build and Run the Application**:
 
     ```sh
     docker-compose up --build
     ```
 
-4. **Access the Application**:
+5. **Access the Application**:
 
    The application will be available at `http://localhost:8080/api`.
 
-5. **API Documentation**:
+
+6. **API Documentation**:
 
    Access the API documentation via Swagger at `http://localhost:8080/api/swagger-ui/index.html#/`.
 
-### Contact
+### 📬 Contact
 
 For any inquiries or support, please contact [tarasyashchuk089@gmail.com](mailto:tarasyashchuk089@gmail.com).
 
 ---
 
-> This README file was last updated on 2024-08-11.
+> This README file was last updated on 2024-08-13.
