@@ -125,7 +125,7 @@ class BookControllerTest {
         bookDto1.setIsbn(faker.code().isbn13());
         bookDto1.setPrice(BigDecimal.valueOf(19.22));
         bookDto1.setCategoryIds(List.of(1L));
-        bookDto1.setCoverImage(faker.internet().url());
+        bookDto1.setCoverImage("http://example.com/cover.jpg");
 
         BookDto bookDto2 = new BookDto();
         bookDto2.setId(2L);
@@ -135,7 +135,7 @@ class BookControllerTest {
         bookDto2.setIsbn(faker.code().isbn13());
         bookDto2.setPrice(BigDecimal.valueOf(20.22));
         bookDto2.setCategoryIds(List.of(2L));
-        bookDto2.setCoverImage(faker.internet().url());
+        bookDto2.setCoverImage("http://example.com/cover.jpg");
 
         List<BookDto> books = List.of(bookDto1, bookDto2);
         Pageable pageable = PageRequest.of(0, 10);
@@ -170,7 +170,7 @@ class BookControllerTest {
         bookDto.setIsbn(faker.code().isbn13());
         bookDto.setPrice(BigDecimal.valueOf(19.22));
         bookDto.setCategoryIds(List.of(1L));
-        bookDto.setCoverImage(faker.internet().url());
+        bookDto.setCoverImage("http://example.com/cover.jpg");
 
         when(bookService.getBookById(anyLong())).thenReturn(bookDto);
 
@@ -197,7 +197,7 @@ class BookControllerTest {
         bookDto.setIsbn(faker.code().isbn13());
         bookDto.setPrice(BigDecimal.valueOf(19.22));
         bookDto.setCategoryIds(List.of(1L));
-        bookDto.setCoverImage(faker.internet().url());
+        bookDto.setCoverImage("http://example.com/cover.jpg");
 
         mockMvc.perform(delete(BOOK_BY_ID_URL, 1L)
                         .contentType(MediaType.APPLICATION_JSON))
