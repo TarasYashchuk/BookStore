@@ -79,8 +79,6 @@ Endpoints for managing books:
 ---
 ## 🚀 Getting Started
 
-#### [Watch the demo video](https://www.youtube.com/watch?v=0lrKKQNzPis)
-
 ### Prerequisites
 
 Before you begin, ensure you have met the following requirements:
